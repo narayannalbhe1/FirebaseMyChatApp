@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "285368364351",
+    "project_id": "mychatapp-ee9c9",
+    "storage_bucket": "mychatapp-ee9c9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285368364351:android:667d7d0876fbf6c1dab78a",
+        "android_client_info": {
+          "package_name": "com.narayan.firebase_mychat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT1yyG-FTQhKB_rU-od_OksBkTmwWYlwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
