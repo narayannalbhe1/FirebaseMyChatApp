@@ -42,135 +42,123 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        automaticallyImplyLeading: false,
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 40.0, left: 16, right: 16),
+        child: Column(
+          children: [
 
-        title: const Text('Messages'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: "Search chats...",
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-              suffixIcon: Container(
-                margin: EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  color: Colors.blueAccent.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10),
+            SizedBox(
+              height: 50,
+              child: TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Search chats...",
+                  hintStyle: TextStyle(color: Colors.grey.shade500),
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.blueAccent.withOpacity(0.3)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.blueAccent, width: 0.8),
+                  ),
+                  suffixIcon: Container(
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueAccent.withOpacity(0.1),
+                          blurRadius: 6,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.search, color: Colors.blueAccent),
+                      onPressed: () {
+                        showSearch(
+                          context: context,
+                          delegate: ChatSearchDelegate(_chats),
+                        );
+                      },
+                      splashRadius: 20,
+                    ),
+                  ),
                 ),
-                child: IconButton(
-                  icon: Icon(Icons.search, color: Colors.blueAccent),
-                  onPressed: () {
-                    showSearch(
-                      context: context,
-                      delegate: ChatSearchDelegate(_chats),
-                    );
-                  },
-                  splashRadius: 24,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey.shade800,
                 ),
               ),
             ),
-          ),
 
 
-          SizedBox(
-            height: 100,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(
-                            'https://randomuser.me/api/portraits/${index % 2 == 0
-                                ? 'men'
-                                : 'women'}/$index.jpg'),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(index == 0 ? 'You' : 'User $index'),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          const Divider(height: 1),
-          // Chat list
-          Expanded(
-            child: ListView.builder(
-              itemCount: _chats.length,
-              itemBuilder: (context, index) {
-                final chat = _chats[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: chat['avatar'].isEmpty
-                        ? null
-                        : NetworkImage(chat['avatar']),
-                    child: chat['avatar'].isEmpty
-                        ? Text(chat['name'][0])
-                        : null,
-                  ),
-                  title: Text(chat['name']),
-                  subtitle: Text(
-                    chat['lastMessage'],
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        chat['time'],
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                      if (chat['unread'] > 0)
-                        CircleAvatar(
-                          radius: 10,
-                          backgroundColor: Colors.blue,
-                          child: Text(
-                            chat['unread'].toString(),
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
+            Expanded(
+              child: ListView.builder(
+                itemCount: _chats.length,
+                itemBuilder: (context, index) {
+                  final chat = _chats[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: chat['avatar'].isEmpty
+                          ? null
+                          : NetworkImage(chat['avatar']),
+                      child: chat['avatar'].isEmpty
+                          ? Text(chat['name'][0])
+                          : null,
+                    ),
+                    title: Text(chat['name']),
+                    subtitle: Text(
+                      chat['lastMessage'],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    trailing: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          chat['time'],
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        if (chat['unread'] > 0)
+                          CircleAvatar(
+                            radius: 10,
+                            backgroundColor: Colors.blue,
+                            child: Text(
+                              chat['unread'].toString(),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatDetailScreen(
+                            chatData: chat,
+                          ),
                         ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChatDetailScreen(
-                          chatData: chat,
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
+                      );
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -1,0 +1,163 @@
+//
+//plugins {
+//    id 'com.android.application'
+//    id 'kotlin-android'
+//    id "dev.flutter.flutter-gradle-plugin"
+//    // id 'com.google.gms.google-services' // Uncomment if using Firebase
+//}
+//
+//android {
+//    namespace "com.narayan.firebase_mychat"
+//    compileSdk flutter.compileSdkVersion
+//    ndkVersion "26.1.10909125"
+//
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_17
+//        targetCompatibility JavaVersion.VERSION_17
+//        coreLibraryDesugaringEnabled true
+//    }
+//
+//    kotlinOptions {
+//        jvmTarget = '17'
+//    }
+//
+//    defaultConfig {
+//        applicationId "com.narayan.firebase_mychat"
+//        minSdkVersion 23
+//        targetSdkVersion 35
+//        compileSdk 35
+//        versionCode flutter.versionCode
+//        versionName flutter.versionName
+//        multiDexEnabled true
+//    }
+//
+//    signingConfigs {
+//        release {
+//            storeFile file("upload-keystore.jks") // File should be in android/app/ folder
+//            storePassword "myfirstchatapp" // Replace with real password
+//            keyAlias "upload" // Replace if you used different alias
+//            keyPassword "myfirstchatapp"
+//        }
+//    }
+//
+//    buildTypes {
+//        release {
+//            signingConfig signingConfigs.release // Only release signing
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+//    }
+//
+//    // 🛠️ Fix for duplicate classes from play-core & core-common
+//    configurations.all {
+//        exclude group: 'com.google.android.play', module: 'core-common'
+//    }
+//
+//}
+//
+//flutter {
+//    source '../..'
+//}
+//
+//dependencies {
+//    implementation 'com.google.firebase:firebase-messaging:24.1.0'
+//    implementation 'androidx.annotation:annotation:1.9.1'
+//    implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+//
+//    implementation 'com.google.android.play:app-update:2.1.0'
+//
+//
+//    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+//    implementation 'androidx.multidex:multidex:2.0.1'
+//}
+//
+//
+//
+//// 🔥 If using Firebase, make sure this is applied at the bottom
+//apply plugin: 'com.google.gms.google-services'
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'dev.flutter.flutter-gradle-plugin'
+  //  id 'com.google.gms.google-services'
+}
+
+android {
+    namespace "com.narayan.firebase_mychat"
+    compileSdkVersion 35
+    ndkVersion "26.1.10909125"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    defaultConfig {
+        applicationId "com.narayan.firebase_mychat"
+        minSdkVersion 23
+        targetSdkVersion 35
+        versionCode flutter.versionCode.toInteger()
+        versionName flutter.versionName
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("upload-keystore.jks")
+            storePassword "myfirstchatapp"
+            keyAlias "upload"
+            keyPassword "myfirstchatapp"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    // Fix for duplicate classes
+    configurations.all {
+        exclude group: 'com.google.android.play', module: 'core-common'
+        resolutionStrategy {
+            force 'com.google.android.play:app-update:2.1.0'
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:32.8.1')
+    implementation 'com.google.firebase:firebase-messaging'
+
+    // Core dependencies
+    implementation 'androidx.annotation:annotation:1.9.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+
+    // Play Core (modern version)
+    implementation 'com.google.android.play:app-update:2.1.0'
+    implementation 'com.google.android.play:app-update-ktx:2.1.0'
+
+    // Support libraries
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+    implementation 'androidx.multidex:multidex:2.0.1'
+}
+
+apply plugin: 'com.google.gms.google-services'
